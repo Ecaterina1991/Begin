@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JS Drum Kit</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
+    <div class="keys">
+      <div data-key="66" class="key">
+        <kbd>B</kbd>
+      </div>
+      <div data-key="69" class="key">
+        <kbd>E</kbd>
+      </div>
+      <div data-key="71" class="key">
+        <kbd>G</kbd>
+      </div>
+      <div data-key="73" class="key">
+        <kbd>I</kbd>
+      </div>
+      <div data-key="78" class="key">
+        <kbd>N</kbd>
+      </div>
+    </div>
+
+    <audio data-key="66" src="sunete/boom.wav"></audio>
+    <audio data-key="69" src="sunete/clap.wav"></audio>
+    <audio data-key="71" src="sunete/hihat.wav"></audio>
+    <audio data-key="73" src="sunete/kick.wav"></audio>
+    <audio data-key="78" src="sunete/ride.wav"></audio>
+
+    <script>
+      function removeTransition(e) {
+        if (e.propertyName !== "transform") return; // sare peste daca nu este transform
+        e.target.classList.remove("playing");
+      }
+
+      function playSound(e) {
+        const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+        const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+        if (!audio) return; // opreste functia din apel
+
+        key.classList.add("playing");
+        audio.currentTime = 0; // reseteaza la start
+        audio.play();
+      }
+
+      const keys = Array.from(document.querySelectorAll(".key"));
+      keys.forEach((key) =>
+        key.addEventListener("transitionend", removeTransition)
+      );
+
+      window.addEventListener("keydown", playSound);
+    </script>
+  </body>
+</html>
